@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class AcountScreen extends StatefulWidget {
-  AcountScreen({Key key, this.title}) : super(key: key);
+class AccountScreen extends StatefulWidget {
+  AccountScreen({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  State<StatefulWidget> createState() {
-  }
+  _AccountScreenState createState() => _AccountScreenState();
 }
-class _AccountScreenState extends State<AcountScreen> {
+
+class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+
+    return Scaffold(
+
+    );
   }
+
 }

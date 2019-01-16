@@ -1,18 +1,13 @@
+import 'package:amplifier_configurations/account_screen/AccountScreen.dart';
+import 'package:amplifier_configurations/favourites_screen/FavouritesScreen.dart';
+import 'package:amplifier_configurations/login_screen/LoginScreen.dart';
+import 'package:amplifier_configurations/musician_screen/MusicianScreen.dart';
+import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -20,17 +15,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  MusicianScreen _musicianScreen = MusicianScreen();
+  AccountScreen _accountScreen = AccountScreen();
+  FavouriteScreen _favouriteScreen = FavouriteScreen();
+  LoginScreen _loginScreen = LoginScreen();
+  RegisterScreen _registerScreen = RegisterScreen();
+  Widget screen;
+  int _currentIndex = 0;
+  List<Widget> _children = [];
 
-  void _incrementCounter() {
+  void onTabTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _currentIndex = index;
+      screen = _children[_currentIndex];
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    screen = MyHomePage();
+    _children = [_musicianScreen, _accountScreen, _favouriteScreen,_loginScreen,_registerScreen];
+
   }
 
   @override
@@ -42,46 +48,35 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped, // new
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.home),
+              title: new Text('Home'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.music_note),
+              title: new Text('Musicians'),
             ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.star),
+              title: new Text('Favourites'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.supervisor_account),
+              title: new Text('Cuenta'),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        body: screen
     );
   }
 }
