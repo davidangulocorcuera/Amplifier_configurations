@@ -5,6 +5,9 @@ import 'package:amplifier_configurations/musician_screen/MusicianScreen.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -13,6 +16,10 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
+
+
+
 
 class _MyHomePageState extends State<MyHomePage> {
   MusicianScreen _musicianScreen = MusicianScreen();
