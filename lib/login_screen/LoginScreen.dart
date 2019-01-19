@@ -15,6 +15,10 @@ class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _iconAnimationController;
   Animation<double> _iconAnimation;
+  String _email;
+  String _password;
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   void initState() {
@@ -25,7 +29,17 @@ class _LoginScreenState extends State<LoginScreen>
         parent: _iconAnimationController, curve: Curves.bounceOut);
     _iconAnimation.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
+    _email = "";
+    _password = "";
+
+
   }
+  bool isEmail(String em) {
+    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(p);
+    return regExp.hasMatch(em);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen>
                   size: _iconAnimation.value * 100,
                 ),
                 Form(
+                  key: _formKey,
                   child: Theme(
                     data: ThemeData(
                         brightness: Brightness.dark,
@@ -67,12 +82,20 @@ class _LoginScreenState extends State<LoginScreen>
                               labelText: "Enter E-mail",
                             ),
                             keyboardType: TextInputType.emailAddress,
+                            onSaved: (value) => _email = value,
+                            validator: (value){
+                              if (!isEmail(value)) {
+                                return 'Please enter some text';
+                              }
+                            },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: "Enter Password",
                             ),
                             keyboardType: TextInputType.text,
+                            onSaved: (value) => _password = value,
+                            validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
                             obscureText: true,
                           ),
                           Padding(
@@ -85,10 +108,12 @@ class _LoginScreenState extends State<LoginScreen>
                             textColor: Colors.white,
                             child: Text("Login"),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
-                              );
+                              if (_formKey.currentState.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+                                );
+                              }
                             },
                             splashColor: Colors.blueAccent,
                           ),
