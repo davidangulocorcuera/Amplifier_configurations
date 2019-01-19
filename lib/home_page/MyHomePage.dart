@@ -32,49 +32,49 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     screen = MyHomePage();
-    _children = [_musicianScreen, _accountScreen, _favouriteScreen,_loginScreen,_registerScreen];
+    _children = [_musicianScreen, _favouriteScreen, _accountScreen];
+
 
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.black,
           title: Text(widget.title),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped, // new
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text('Home'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.music_note),
-              title: new Text('Musicians'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.star),
-              title: new Text('Favourites'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.supervisor_account),
-              title: new Text('Cuenta'),
-            )
-          ],
+        bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+            canvasColor: Colors.black,
+            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+            primaryColor: Colors.teal,
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .copyWith(caption: new TextStyle(color: Colors.white70))),
+          child: BottomNavigationBar(
+            onTap: onTabTapped, // new
+            currentIndex: _currentIndex,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.music_note),
+                title: new Text('Musicians'),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.star),
+                title: new Text('Favourites'),
+              ),
+              BottomNavigationBarItem(
+                icon: new Icon(Icons.supervisor_account),
+                title: new Text('Account'),
+              )
+            ],
+          ),
         ),
         body: screen
     );

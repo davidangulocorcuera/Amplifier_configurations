@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "63938098651",
+    "firebase_url": "https://shamp-f2ff9.firebaseio.com",
+    "project_id": "shamp-f2ff9",
+    "storage_bucket": "shamp-f2ff9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63938098651:android:84816153123d9146",
+        "android_client_info": {
+          "package_name": "com.onion.amplifierconfigurations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63938098651-frl99o88ugtcskkkln2rcv3kq5f6fjna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpTnvs7t-5wRptR2MJ0uTDyT28-tUTPbE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

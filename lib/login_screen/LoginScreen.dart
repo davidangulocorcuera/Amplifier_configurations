@@ -1,3 +1,5 @@
+import 'package:amplifier_configurations/home_page/MyHomePage.dart';
+import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +30,9 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black38,
+        ),
         backgroundColor: Colors.black,
         body: Stack(
           fit: StackFit.expand,
@@ -47,15 +52,11 @@ class _LoginScreenState extends State<LoginScreen>
                 Form(
                   child: Theme(
                     data: ThemeData(
-                      brightness: Brightness.dark,
-                      primarySwatch: Colors.teal,
-                      inputDecorationTheme: InputDecorationTheme(
-                        labelStyle: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 20.0
-                        )
-                      )
-                    ),
+                        brightness: Brightness.dark,
+                        primarySwatch: Colors.teal,
+                        inputDecorationTheme: InputDecorationTheme(
+                            labelStyle: TextStyle(
+                                color: Colors.white70, fontSize: 20.0))),
                     child: Container(
                       padding: const EdgeInsets.all(40.0),
                       child: Column(
@@ -83,9 +84,32 @@ class _LoginScreenState extends State<LoginScreen>
                             color: Colors.green,
                             textColor: Colors.white,
                             child: Text("Login"),
-                            onPressed: ()=>{},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+                              );
+                            },
                             splashColor: Colors.blueAccent,
-
+                          ),
+                          Padding(padding: const EdgeInsets.only(top: 10.0)),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RegisterScreen()),
+                              );
+                            },
+                            splashColor: Colors.blueAccent,
+                            child: Text(
+                              "Create account",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white70,
+                                color: Colors.white70,
+                                fontSize: 15.0,
+                              ),
+                            ),
                           ),
                         ],
                       ),
