@@ -1,5 +1,6 @@
 import 'package:amplifier_configurations/home_page/MyHomePage.dart';
 import 'package:amplifier_configurations/login_screen/LoginScreen.dart';
+import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(title: 'Flutter Demo Home Page'),
+      home: LoginScreen(auth: new Auth()),
     );
   }
 }

@@ -11,11 +11,11 @@ class RegisterScreenPresenter{
   validatePassword(String password){
     _view.validatePassword(password);
   }
- showErrorMessage(){
-    _view.showErrorMessage();
- }
  showCircularProgress(){
    _view.showCircularProgress();
+ }
+ registerUser(){
+    _view.registerUser();
  }
 
 }

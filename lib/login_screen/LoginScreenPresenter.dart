@@ -11,11 +11,11 @@ class LoginScreenPresenter{
   validatePassword(String password){
     _view.validatePassword(password);
   }
-  showErrorMessage(){
-    _view.showErrorMessage();
-  }
   showCircularProgress(){
     _view.showCircularProgress();
+  }
+  loginUser(){
+    _view.loginUser();
   }
 
 }

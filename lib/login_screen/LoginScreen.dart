@@ -8,8 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key, this.title}) : super(key: key);
-  final String title;
+  LoginScreen({this.auth});
+
+  final BaseAuth auth;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -113,12 +114,8 @@ class _LoginScreenState extends State<LoginScreen>
                             child: Text("Login"),
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MyHomePage(title: "hola")),
-                                );
+                                _formKey.currentState.save();
+                              loginUser();
                               }
                             },
                             splashColor: Colors.blueAccent,
@@ -150,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen>
                 )
               ],
             ),
-            showErrorMessage(),
           ],
         ));
   }
@@ -168,23 +164,6 @@ class _LoginScreenState extends State<LoginScreen>
     return password.length > 6 ? true : false;
   }
 
-  @override
-  showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }    return null;
-  }
 
   @override
   showCircularProgress() {
@@ -192,5 +171,28 @@ class _LoginScreenState extends State<LoginScreen>
       return Center(child: CircularProgressIndicator());
     } return Container(height: 0.0, width: 0.0,);
 
+  }
+
+  @override
+  loginUser() async {
+    print("hola");
+    setState(() {
+      _errorMessage = "";
+    });
+    String userId = "";
+    try {
+      userId = await widget.auth.signIn(_email, _password);
+      print('Signed up user: $userId');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                MyHomePage(title: "hola")),
+      );
+    } catch (e) {
+      _errorMessage = e.message;
+      print(_errorMessage);
+
+    }
   }
 }

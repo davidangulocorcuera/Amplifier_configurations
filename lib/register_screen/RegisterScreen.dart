@@ -18,6 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     implements RegisterScreenView {
   bool _isLoading;
   bool _value2 = false;
+  bool _isRegister;
   final _formKey = GlobalKey<FormState>();
   String _errorMessage;
   String _email;
@@ -28,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     _password = "";
     _errorMessage = "";
     _isLoading = false;
+    _isRegister = false;
   }
 
   void _value2Changed(bool value) => setState(() => _value2 = value);
@@ -106,13 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
-                                _registerUser();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MyHomePage(title: "hola")),
-                                );
+                                registerUser();
                               }
                             },
                             splashColor: Colors.blueAccent,
@@ -158,11 +154,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                       ),
                     ),
                   ),
-                )
+                ),
+                // Find the Scaffold in the Widget tree and use it to show a SnackBar!
               ],
             ),
-            showErrorMessage(),
-            showCircularProgress(),
           ],
         ));
   }
@@ -181,24 +176,6 @@ class _RegisterScreenState extends State<RegisterScreen>
   }
 
   @override
-  showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }
-  }
-
-  @override
   showCircularProgress() {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
@@ -209,22 +186,26 @@ class _RegisterScreenState extends State<RegisterScreen>
     );
   }
 
-  _registerUser() async {
+  @override
+  registerUser() async {
     print("hola");
     setState(() {
       _errorMessage = "";
-      _isLoading = true;
     });
     String userId = "";
     try {
       userId = await widget.auth.signUp(_email, _password);
-      _isLoading = false;
       print('Signed up user: $userId');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                MyHomePage(title: "hola")),
+      );
     } catch (e) {
-      _isLoading = false;
-      print(_password);
       _errorMessage = e.details;
       print(_errorMessage);
+
     }
   }
 }
