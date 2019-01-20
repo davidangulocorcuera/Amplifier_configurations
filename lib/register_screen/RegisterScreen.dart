@@ -1,34 +1,34 @@
 import 'package:amplifier_configurations/home_page/MyHomePage.dart';
+import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreenView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({Key key, this.title}) : super(key: key);
-  final String title;
+  RegisterScreen({this.auth});
+
+  final BaseAuth auth;
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> implements RegisterScreenView{
+class _RegisterScreenState extends State<RegisterScreen>
+    implements RegisterScreenView {
   bool _isLoading;
   bool _value2 = false;
   final _formKey = GlobalKey<FormState>();
   String _errorMessage;
-
   String _email;
   String _password;
+
   @override
-  void initState() {
-    _email = "";
+  void initState(){
     _password = "";
-    _errorMessage  = "";
+    _errorMessage = "";
     _isLoading = false;
   }
-
 
   void _value2Changed(bool value) => setState(() => _value2 = value);
 
@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
                             ),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (value) => _email = value,
-                            validator: (value){
+                            validator: (value) {
                               if (!validateEmail(value)) {
                                 return 'Incorrect e-mail';
                               }
@@ -87,9 +87,9 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
                             ),
                             keyboardType: TextInputType.text,
                             onSaved: (value) => _password = value,
-                            validator: (value){
+                            validator: (value) {
                               if (!validatePassword(value)) {
-                                return 'Password must be longer than 6 characters ';
+                                return 'The password must be 6 characters long or more.';
                               }
                             },
                             obscureText: true,
@@ -105,10 +105,17 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
                             child: Text("Sign up!"),
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
-                                );
+                                _formKey.currentState.save();
+                                _registerUser();
+                                if(_registerUser()){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyHomePage(title: "hola")),
+                                  );
+                                }
+
                               }
                             },
                             splashColor: Colors.blueAccent,
@@ -138,9 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
                             activeColor: Colors.teal,
                           ),
                           FlatButton(
-                            onPressed: () {
-
-                            },
+                            onPressed: () {},
                             splashColor: Colors.blueAccent,
                             child: Text(
                               "Terms of service",
@@ -160,12 +165,15 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
               ],
             ),
             showErrorMessage(),
+            showCircularProgress(),
           ],
         ));
   }
+
   @override
   validateEmail(email) {
-    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = new RegExp(p);
     return regExp.hasMatch(email);
   }
@@ -192,11 +200,36 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
       );
     }
   }
+
   @override
   showCircularProgress() {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
-    } return Container(height: 0.0, width: 0.0,);
+    }
+    return Container(
+      height: 0.0,
+      width: 0.0,
+    );
+  }
 
+  _registerUser() async {
+    print("hola");
+    setState(() {
+      _errorMessage = "";
+      _isLoading = true;
+    });
+    String userId = "";
+    try {
+      userId = await widget.auth.signUp(_email, _password);
+      print('Signed up user: $userId');
+      _isLoading = false;
+      return true;
+    } catch (e) {
+      _isLoading = false;
+      print(_password);
+      _errorMessage = e.details;
+      print(_errorMessage);
+      return false;
+    }
   }
 }

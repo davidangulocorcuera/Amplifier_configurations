@@ -1,5 +1,6 @@
 import 'package:amplifier_configurations/home_page/MyHomePage.dart';
 import 'package:amplifier_configurations/login_screen/LoginScreenView.dart';
+import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegisterScreen()),
+                                    builder: (context) => RegisterScreen(auth: new Auth())),
                               );
                             },
                             splashColor: Colors.blueAccent,
