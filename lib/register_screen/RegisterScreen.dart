@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   String _password;
 
   @override
-  void initState(){
+  void initState() {
     _password = "";
     _errorMessage = "";
     _isLoading = false;
@@ -107,15 +107,12 @@ class _RegisterScreenState extends State<RegisterScreen>
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
                                 _registerUser();
-                                if(_registerUser()){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyHomePage(title: "hola")),
-                                  );
-                                }
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyHomePage(title: "hola")),
+                                );
                               }
                             },
                             splashColor: Colors.blueAccent,
@@ -221,15 +218,13 @@ class _RegisterScreenState extends State<RegisterScreen>
     String userId = "";
     try {
       userId = await widget.auth.signUp(_email, _password);
-      print('Signed up user: $userId');
       _isLoading = false;
-      return true;
+      print('Signed up user: $userId');
     } catch (e) {
       _isLoading = false;
       print(_password);
       _errorMessage = e.details;
       print(_errorMessage);
-      return false;
     }
   }
 }
