@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen>
   String _email;
   String _password;
   String _errorMessage;
+  bool _isLoading;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -36,23 +37,9 @@ class _LoginScreenState extends State<LoginScreen>
     _email = "";
     _password = "";
     _errorMessage  = "";
+    _isLoading = false;
   }
-  Widget _showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen>
                 )
               ],
             ),
-            _showErrorMessage(),
+            showErrorMessage(),
           ],
         ));
   }
@@ -178,5 +165,31 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   validatePassword(String password) {
     return password.length > 6 ? true : false;
+  }
+
+  @override
+  showErrorMessage() {
+    if (_errorMessage.length > 0 && _errorMessage != null) {
+      return new Text(
+        _errorMessage,
+        style: TextStyle(
+            fontSize: 13.0,
+            color: Colors.red,
+            height: 1.0,
+            fontWeight: FontWeight.w300),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }    return null;
+  }
+
+  @override
+  showCircularProgress() {
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } return Container(height: 0.0, width: 0.0,);
+
   }
 }

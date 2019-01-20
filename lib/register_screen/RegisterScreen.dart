@@ -14,7 +14,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> implements RegisterScreenView{
-  bool _value1 = false;
+  bool _isLoading;
   bool _value2 = false;
   final _formKey = GlobalKey<FormState>();
   String _errorMessage;
@@ -26,24 +26,9 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
     _email = "";
     _password = "";
     _errorMessage  = "";
+    _isLoading = false;
   }
 
-  Widget _showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }
-  }
 
   void _value2Changed(bool value) => setState(() => _value2 = value);
 
@@ -174,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
                 )
               ],
             ),
-            _showErrorMessage(),
+            showErrorMessage(),
           ],
         ));
   }
@@ -188,5 +173,30 @@ class _RegisterScreenState extends State<RegisterScreen> implements RegisterScre
   @override
   validatePassword(String password) {
     return password.length > 6 ? true : false;
+  }
+
+  @override
+  showErrorMessage() {
+    if (_errorMessage.length > 0 && _errorMessage != null) {
+      return new Text(
+        _errorMessage,
+        style: TextStyle(
+            fontSize: 13.0,
+            color: Colors.red,
+            height: 1.0,
+            fontWeight: FontWeight.w300),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }
+  }
+  @override
+  showCircularProgress() {
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } return Container(height: 0.0, width: 0.0,);
+
   }
 }
