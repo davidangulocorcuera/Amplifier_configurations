@@ -83,7 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: screen
+        body: WillPopScope(
+            onWillPop: () => Future.value(false),
+            child: screen)
     );
   }
 }

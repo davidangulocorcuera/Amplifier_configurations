@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 
   final BaseAuth auth;
 
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -147,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen>
                 )
               ],
             ),
+            showCircularProgress(),
           ],
         ));
   }
@@ -178,6 +180,7 @@ class _LoginScreenState extends State<LoginScreen>
     print("hola");
     setState(() {
       _errorMessage = "";
+      _isLoading = true;
     });
     String userId = "";
     try {
@@ -190,8 +193,13 @@ class _LoginScreenState extends State<LoginScreen>
                 MyHomePage(title: "hola")),
       );
     } catch (e) {
-      _errorMessage = e.message;
+      setState(() {
+        _isLoading = false;
+        _errorMessage = e.message;
+      });
+
       print(_errorMessage);
+
 
     }
   }

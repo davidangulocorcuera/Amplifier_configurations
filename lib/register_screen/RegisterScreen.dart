@@ -158,6 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                 // Find the Scaffold in the Widget tree and use it to show a SnackBar!
               ],
             ),
+            showCircularProgress()
           ],
         ));
   }
@@ -191,6 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     print("hola");
     setState(() {
       _errorMessage = "";
+      _isLoading = true;
     });
     String userId = "";
     try {
@@ -203,6 +205,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                 MyHomePage(title: "hola")),
       );
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       _errorMessage = e.details;
       print(_errorMessage);
 
