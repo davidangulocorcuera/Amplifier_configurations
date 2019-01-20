@@ -1,5 +1,9 @@
+import 'package:amplifier_configurations/home_page/MyHomePage.dart';
+import 'package:amplifier_configurations/register_screen/RegisterScreenView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key, this.title}) : super(key: key);
@@ -9,11 +13,37 @@ class RegisterScreen extends StatefulWidget {
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> implements RegisterScreenView{
   bool _value1 = false;
   bool _value2 = false;
+  final _formKey = GlobalKey<FormState>();
+  String _errorMessage;
 
-  void _value1Changed(bool value) => setState(() => _value1 = value);
+  String _email;
+  String _password;
+  @override
+  void initState() {
+    _email = "";
+    _password = "";
+    _errorMessage  = "";
+  }
+
+  Widget _showErrorMessage() {
+    if (_errorMessage.length > 0 && _errorMessage != null) {
+      return new Text(
+        _errorMessage,
+        style: TextStyle(
+            fontSize: 13.0,
+            color: Colors.red,
+            height: 1.0,
+            fontWeight: FontWeight.w300),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }
+  }
 
   void _value2Changed(bool value) => setState(() => _value2 = value);
 
@@ -41,6 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   size: 100.0,
                 ),
                 Form(
+                  key: _formKey,
                   child: Theme(
                     data: ThemeData(
                         brightness: Brightness.dark,
@@ -58,12 +89,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               labelText: "Enter E-mail",
                             ),
                             keyboardType: TextInputType.emailAddress,
+                            onSaved: (value) => _email = value,
+                            validator: (value){
+                              if (!validateEmail(value)) {
+                                return 'Incorrect e-mail';
+                              }
+                            },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: "Enter Password",
                             ),
                             keyboardType: TextInputType.text,
+                            onSaved: (value) => _password = value,
+                            validator: (value){
+                              if (!validatePassword(value)) {
+                                return 'Password must be longer than 6 characters ';
+                              }
+                            },
                             obscureText: true,
                           ),
                           Padding(
@@ -75,7 +118,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Colors.green,
                             textColor: Colors.white,
                             child: Text("Sign up!"),
-                            onPressed: () => {},
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+                                );
+                              }
+                            },
                             splashColor: Colors.blueAccent,
                           ),
                           Padding(padding: const EdgeInsets.only(top: 10.0)),
@@ -103,7 +153,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             activeColor: Colors.teal,
                           ),
                           FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             splashColor: Colors.blueAccent,
                             child: Text(
                               "Terms of service",
@@ -121,8 +173,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 )
               ],
-            )
+            ),
+            _showErrorMessage(),
           ],
         ));
+  }
+  @override
+  validateEmail(email) {
+    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(p);
+    return regExp.hasMatch(email);
+  }
+
+  @override
+  validatePassword(String password) {
+    return password.length > 6 ? true : false;
   }
 }

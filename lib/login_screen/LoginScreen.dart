@@ -3,6 +3,8 @@ import 'package:amplifier_configurations/login_screen/LoginScreenView.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -13,13 +15,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin implements LoginScreenView{
+    with SingleTickerProviderStateMixin
+    implements LoginScreenView {
   AnimationController _iconAnimationController;
   Animation<double> _iconAnimation;
   String _email;
   String _password;
+  String _errorMessage;
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   void initState() {
@@ -32,12 +35,24 @@ class _LoginScreenState extends State<LoginScreen>
     _iconAnimationController.forward();
     _email = "";
     _password = "";
-
-
+    _errorMessage  = "";
   }
-
-
-
+  Widget _showErrorMessage() {
+    if (_errorMessage.length > 0 && _errorMessage != null) {
+      return new Text(
+        _errorMessage,
+        style: TextStyle(
+            fontSize: 13.0,
+            color: Colors.red,
+            height: 1.0,
+            fontWeight: FontWeight.w300),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen>
                             ),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (value) => _email = value,
-                            validator: (value){
+                            validator: (value) {
                               if (!validateEmail(value)) {
-                                return 'Please enter some text';
+                                return 'Incorrect e-mail';
                               }
                             },
                           ),
@@ -92,7 +107,11 @@ class _LoginScreenState extends State<LoginScreen>
                             ),
                             keyboardType: TextInputType.text,
                             onSaved: (value) => _password = value,
-                            validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+                            validator: (value) {
+                              if (!validatePassword(value)) {
+                                return 'Password incorrect';
+                              }
+                            },
                             obscureText: true,
                           ),
                           Padding(
@@ -108,7 +127,9 @@ class _LoginScreenState extends State<LoginScreen>
                               if (_formKey.currentState.validate()) {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyHomePage(title: "hola")),
                                 );
                               }
                             },
@@ -119,7 +140,8 @@ class _LoginScreenState extends State<LoginScreen>
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => RegisterScreen()),
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()),
                               );
                             },
                             splashColor: Colors.blueAccent,
@@ -139,15 +161,22 @@ class _LoginScreenState extends State<LoginScreen>
                   ),
                 )
               ],
-            )
+            ),
+            _showErrorMessage(),
           ],
         ));
   }
 
   @override
   validateEmail(email) {
-  String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regExp = new RegExp(p);
-  return regExp.hasMatch(email);
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(p);
+    return regExp.hasMatch(email);
+  }
+
+  @override
+  validatePassword(String password) {
+    return password.length > 6 ? true : false;
   }
 }

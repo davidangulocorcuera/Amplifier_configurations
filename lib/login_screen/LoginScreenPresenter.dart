@@ -8,5 +8,8 @@ class LoginScreenPresenter{
   validateEmail(email){
     _view.validateEmail(email);
   }
+  validatePassword(String password){
+    _view.validatePassword(password);
+  }
 
 }
