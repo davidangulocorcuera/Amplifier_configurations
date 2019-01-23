@@ -87,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 return 'Incorrect e-mail';
                               }
                             },
+                            obscureText: true,
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        RegisterScreen(auth: new Auth())),
+                                        RegisterScreen()),
                               );
                             },
                             splashColor: Colors.blueAccent,
@@ -181,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   showLoginError() {
     _scaffoldState.currentState.showSnackBar(SnackBar(
-      content: Text("Usuario o contraseña incorrecta"),
+      content: Text("incorrect user or password"),
       backgroundColor: Colors.teal,
       duration: Duration(seconds: 1),
     ));
