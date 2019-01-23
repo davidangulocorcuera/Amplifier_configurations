@@ -214,8 +214,9 @@ class _RegisterScreenState extends State<RegisterScreen>
         _isLoading = false;
       });
       _errorMessage = e.message;
-      snackBar = SnackBar(content: Text(_errorMessage),
-      backgroundColor: Colors.teal,);
+      snackBar =  SnackBar(content: Text(_errorMessage),
+      backgroundColor: Colors.teal,
+          duration: Duration(seconds: 3));
       print(_errorMessage);
 
     }
