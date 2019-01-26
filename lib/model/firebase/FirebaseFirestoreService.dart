@@ -5,6 +5,8 @@ import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+
+
 final CollectionReference musicianCollection =
     Firestore.instance.collection('musician');
 

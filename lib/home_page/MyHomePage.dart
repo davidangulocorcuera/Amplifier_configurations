@@ -50,20 +50,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-          title: Text(widget.title),
-        ),
+
         bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-            canvasColor: Colors.black,
+            canvasColor:  Color.fromRGBO(64, 75, 96, .9),
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-            primaryColor: Colors.teal,
+            primaryColor: Colors.orange,
             textTheme: Theme
                 .of(context)
                 .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.white70))),
+                .copyWith(caption: new TextStyle(color: Colors.white))),
           child: BottomNavigationBar(
             onTap: onTabTapped, // new
             currentIndex: _currentIndex,
