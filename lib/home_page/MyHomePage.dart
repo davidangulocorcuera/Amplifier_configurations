@@ -29,9 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget screen;
   int _currentIndex = 0;
   List<Widget> _children = [];
-  List<Musician> musicians;
-  StreamSubscription<QuerySnapshot> musicianSub;
-  FirebaseFirestoreService db = new FirebaseFirestoreService();
+
 
 
   void onTabTapped(int index) {
@@ -46,24 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     screen = MyHomePage();
     _children = [_musicianScreen, _favouriteScreen, _accountScreen];
 
-    musicians = new List();
-
-    musicianSub?.cancel();
-    musicianSub = db.getMusiciansList().listen((QuerySnapshot snapshot) {
-      final List<Musician> musicians = snapshot.documents
-          .map((documentSnapshot) => Musician.fromMap(documentSnapshot.data))
-          .toList();
-
-      setState(() {
-        this.musicians = musicians;
-      });
-    });
-
-  }
-  @override
-  void dispose() {
-    musicianSub?.cancel();
-    super.dispose();
   }
 
 

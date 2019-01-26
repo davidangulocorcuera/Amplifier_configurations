@@ -1,4 +1,4 @@
-class Configuration {
+class Configuration{
   String gain;
   String bass;
   String mid;

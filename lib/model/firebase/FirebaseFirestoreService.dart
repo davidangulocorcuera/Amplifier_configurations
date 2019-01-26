@@ -9,7 +9,7 @@ final CollectionReference musicianCollection =
 
 class FirebaseFirestoreService {
   static final FirebaseFirestoreService _instance =
-      new FirebaseFirestoreService();
+      new  FirebaseFirestoreService.internal();
 
   factory FirebaseFirestoreService() => _instance;
 
@@ -33,7 +33,7 @@ class FirebaseFirestoreService {
     });
   }
 
-  // Get musician
+  // Get musicians
   Stream<QuerySnapshot> getMusiciansList({int offset, int limit}) {
     Stream<QuerySnapshot> snapshots = musicianCollection.snapshots();
 
