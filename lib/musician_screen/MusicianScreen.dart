@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,15 +18,16 @@ class _MusicianScreenState extends State<MusicianScreen> {
   StreamSubscription<QuerySnapshot> musicianSub;
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
+
+
   @override
   void initState() {
     super.initState();
     musicians = new List();
-
     musicianSub?.cancel();
-    musicianSub = db.getMusiciansList().listen((QuerySnapshot snapshot) {
+    musicianSub =  db.getMusiciansList().listen((QuerySnapshot snapshot) {
       final List<Musician> musicians = snapshot.documents
-          .map((documentSnapshot) => Musician.fromMap(documentSnapshot.data))
+          .map((documentSnapshot) => Musician.fromJson(documentSnapshot.data))
           .toList();
 
       setState(() {

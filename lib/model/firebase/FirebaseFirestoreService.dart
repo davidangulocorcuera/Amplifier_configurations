@@ -4,6 +4,7 @@ import 'package:amplifier_configurations/model/Configuration.dart';
 import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 final CollectionReference musicianCollection =
     Firestore.instance.collection('musician');
 
@@ -21,12 +22,12 @@ class FirebaseFirestoreService {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(musicianCollection.document());
       final Musician musician = new Musician(name, configuration, amplifier);
-      final Map<String, dynamic> data = musician.toMap();
+      final Map<String, dynamic> data = musician.toJson();
       await tx.set(ds.reference, data);
       return data;
     };
     return Firestore.instance.runTransaction(createTransaction).then((mapData) {
-      return Musician.fromMap(mapData);
+      return Musician.fromJson(mapData);
     }).catchError((error) {
       print('error: $error');
       return null;
@@ -52,7 +53,7 @@ class FirebaseFirestoreService {
     final TransactionHandler updateTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(musicianCollection.document(musician.name));
 
-      await tx.update(ds.reference, musician.toMap());
+      await tx.update(ds.reference, musician.toJson());
       return {'updated': true};
     };
 
