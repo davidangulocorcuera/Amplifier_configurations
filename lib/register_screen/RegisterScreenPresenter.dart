@@ -3,7 +3,7 @@ import 'package:amplifier_configurations/register_screen/RegisterScreenView.dart
 
 class RegisterScreenPresenter{
   final BaseAuth auth;
-
+  String _errorMessage = "";
   RegisterScreenView _view;
   RegisterScreenPresenter(this._view):
         auth = Auth();
@@ -26,7 +26,8 @@ class RegisterScreenPresenter{
       print('Signed up user: $userId');
       _view.goToHomePage();
     } catch (e) {
-      _view.showRegisterError();
+       _errorMessage = "The user already exists";
+      _view.showError(_errorMessage);
     } finally {
       _view.hideCircularProgress();
     }

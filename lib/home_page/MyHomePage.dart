@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:amplifier_configurations/account_screen/AccountScreen.dart';
 import 'package:amplifier_configurations/favourites_screen/FavouritesScreen.dart';
 import 'package:amplifier_configurations/login_screen/LoginScreen.dart';
+import 'package:amplifier_configurations/model/Musician.dart';
+import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:amplifier_configurations/musician_screen/MusicianScreen.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,10 +20,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
-
-
 class _MyHomePageState extends State<MyHomePage> {
   MusicianScreen _musicianScreen = MusicianScreen();
   AccountScreen _accountScreen = AccountScreen();
@@ -30,6 +29,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget screen;
   int _currentIndex = 0;
   List<Widget> _children = [];
+  List<Musician> musicians;
+  StreamSubscription<QuerySnapshot> musicianSub;
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
+
 
   void onTabTapped(int index) {
     setState(() {
@@ -43,8 +46,26 @@ class _MyHomePageState extends State<MyHomePage> {
     screen = MyHomePage();
     _children = [_musicianScreen, _favouriteScreen, _accountScreen];
 
+    musicians = new List();
+
+    musicianSub?.cancel();
+    musicianSub = db.getMusiciansList().listen((QuerySnapshot snapshot) {
+      final List<Musician> musicians = snapshot.documents
+          .map((documentSnapshot) => Musician.fromMap(documentSnapshot.data))
+          .toList();
+
+      setState(() {
+        this.musicians = musicians;
+      });
+    });
 
   }
+  @override
+  void dispose() {
+    musicianSub?.cancel();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

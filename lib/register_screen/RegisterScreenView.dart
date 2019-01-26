@@ -5,5 +5,5 @@ abstract class RegisterScreenView{
 
   goToHomePage();
 
-  showRegisterError();
+  showError(String errorMessage);
 }
