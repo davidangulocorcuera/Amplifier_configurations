@@ -16,15 +16,16 @@ class MusicianScreen extends StatefulWidget {
   _MusicianScreenState createState() => _MusicianScreenState();
 }
 
-class _MusicianScreenState extends State<MusicianScreen> implements MusicianScreenView{
+class _MusicianScreenState extends State<MusicianScreen>
+    implements MusicianScreenView {
   List<Musician> musicians = [];
   FirebaseFirestoreService db = new FirebaseFirestoreService();
   MusicianScreenPresenter _presenter;
+  bool isMarkedAsFav = false;
 
   _MusicianScreenState() {
     _presenter = MusicianScreenPresenter(this);
   }
-
 
   @override
   void initState() {
@@ -33,16 +34,29 @@ class _MusicianScreenState extends State<MusicianScreen> implements MusicianScre
   }
 
   @override
-  showMusicians(List<Musician> musicians)  {
+  showMusicians(List<Musician> musicians) {
     setState(() {
-      this.musicians =  musicians;
+      this.musicians = musicians;
     });
   }
+
   @override
   void dispose() {
     _presenter.dispose();
     super.dispose();
   }
+
+  void markAsFavourite(){
+    setState(() {
+      if(isMarkedAsFav){
+        isMarkedAsFav = false;
+      }
+      else{
+        isMarkedAsFav = true;
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,44 +68,65 @@ class _MusicianScreenState extends State<MusicianScreen> implements MusicianScre
           title: Text("Musicians"),
         ),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-        body: ListView.builder(
-          itemBuilder: (context, position) {
-            return Card(
-              elevation: 8.0,
-              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-              child: Container(
-                decoration:
-                    BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-                child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: Icon(Icons.library_music, color: Colors.white)),
-                    title: Text(
-                      '${musicians[position].name}',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Row(
-                      children: <Widget>[
-                        Icon(Icons.surround_sound, color: Colors.yellowAccent),
-                        Text(' ${musicians[position].amplifier.name}',
-                            style: TextStyle(color: Colors.white))
-                      ],
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.white, size: 30.0)),
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/guitarist.jpg"),
+                fit: BoxFit.cover,
+                color: Colors.black87,
+                colorBlendMode: BlendMode.darken,
               ),
-            );
-          },
-          itemCount: musicians.length,
+              ListView.builder(
+                itemBuilder: (context, position) {
+                  return Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                      child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          leading: Container(
+                              padding: EdgeInsets.only(right: 12.0),
+                              decoration: new BoxDecoration(
+                                  border: new Border(
+                                      right: new BorderSide(
+                                          width: 1.0, color: Colors.white))),
+                              child: IconButton(
+                                icon: isMarkedAsFav ? Icon(Icons.favorite,
+                                    color: Colors.redAccent) : Icon(Icons.favorite_border,
+                                    color: Colors.redAccent),
+                                  onPressed: () {
+                                  markAsFavourite();
+                                },
+                              )),
+                          title: Text(
+                            '${musicians[position].name}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Row(
+                            children: <Widget>[
+                              Icon(Icons.surround_sound,
+                                  color: Colors.yellowAccent),
+                              Text(' ${musicians[position].amplifier.name}',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          ),
+                          trailing: Icon(Icons.keyboard_arrow_right,
+                              color: Colors.white, size: 30.0)),
+                    ),
+                  );
+                },
+                itemCount: musicians.length,
+              )
+            ],
+          ),
         ));
   }
-
-
 }

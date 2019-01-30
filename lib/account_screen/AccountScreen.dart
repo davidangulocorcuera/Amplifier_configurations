@@ -17,7 +17,7 @@ class _AccountScreenState extends State<AccountScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         centerTitle: true,
-        title: Text("Musicians"),
+        title: Text("Account"),
         actions: <Widget>[
           // action button
           IconButton(
