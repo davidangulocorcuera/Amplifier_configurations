@@ -1,3 +1,1 @@
-abstract class MyHomePageView{
-
-}
+abstract class MyHomePageView {}

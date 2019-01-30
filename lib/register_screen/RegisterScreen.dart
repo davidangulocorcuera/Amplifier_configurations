@@ -194,7 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   goToHomePage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+      MaterialPageRoute(builder: (context) => MyHomePage(title: "Amplifier Configurations")),
     );
   }
 

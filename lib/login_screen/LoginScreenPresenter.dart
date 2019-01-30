@@ -1,15 +1,14 @@
 import 'package:amplifier_configurations/login_screen/LoginScreenView.dart';
 import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
+import 'package:flutter/cupertino.dart';
 
-class LoginScreenPresenter{
+class LoginScreenPresenter {
   final BaseAuth auth;
   final LoginScreenView _view;
 
-  LoginScreenPresenter(this._view):
-      auth = Auth();
+  LoginScreenPresenter(this._view) : auth = Auth();
 
-
-  showCircularProgress(){
+  showCircularProgress() {
     _view.showCircularProgress();
   }
 
@@ -25,7 +24,6 @@ class LoginScreenPresenter{
       _view.hideCircularProgress();
     }
   }
-
 
   bool validateEmail(email) {
     String p =

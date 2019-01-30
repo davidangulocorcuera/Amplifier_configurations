@@ -4,15 +4,12 @@ import 'package:amplifier_configurations/model/Configuration.dart';
 import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-
 final CollectionReference musicianCollection =
     Firestore.instance.collection('musician');
 
 class FirebaseFirestoreService {
   static final FirebaseFirestoreService _instance =
-      new  FirebaseFirestoreService.internal();
+      new FirebaseFirestoreService.internal();
 
   factory FirebaseFirestoreService() => _instance;
 
@@ -50,10 +47,12 @@ class FirebaseFirestoreService {
 
     return snapshots;
   }
+
   // Update musician
   Future<dynamic> updateMusician(Musician musician) async {
     final TransactionHandler updateTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(musicianCollection.document(musician.name));
+      final DocumentSnapshot ds =
+          await tx.get(musicianCollection.document(musician.name));
 
       await tx.update(ds.reference, musician.toJson());
       return {'updated': true};
@@ -70,7 +69,8 @@ class FirebaseFirestoreService {
 
   Future<dynamic> deleteMusician(String name) async {
     final TransactionHandler deleteTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(musicianCollection.document(name));
+      final DocumentSnapshot ds =
+          await tx.get(musicianCollection.document(name));
 
       await tx.delete(ds.reference);
       return {'deleted': true};
@@ -84,5 +84,4 @@ class FirebaseFirestoreService {
       return false;
     });
   }
-
 }

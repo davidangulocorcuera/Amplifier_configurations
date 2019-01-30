@@ -1,5 +1,4 @@
-abstract class LoginScreenView{
-
+abstract class LoginScreenView {
   showCircularProgress();
 
   hideCircularProgress();
@@ -7,5 +6,4 @@ abstract class LoginScreenView{
   goToHomePage();
 
   showLoginError();
-
 }

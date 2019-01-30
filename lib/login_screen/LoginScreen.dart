@@ -1,11 +1,19 @@
+import 'dart:async';
+
 import 'package:amplifier_configurations/home_page/MyHomePage.dart';
 import 'package:amplifier_configurations/login_screen/LoginScreenPresenter.dart';
 import 'package:amplifier_configurations/login_screen/LoginScreenView.dart';
+import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({this.auth, this.onSignedIn});
+
+  final VoidCallback onSignedIn;
+  final BaseAuth auth;
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -54,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen>
             ),
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(top : 50.0),
+                padding: const EdgeInsets.only(top: 50.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -122,15 +130,15 @@ class _LoginScreenState extends State<LoginScreen>
                                       },
                                       splashColor: Colors.blueAccent,
                                     ),
-                              Padding(padding: const EdgeInsets.only(top: 10.0)),
+                              Padding(
+                                  padding: const EdgeInsets.only(top: 10.0)),
                               FlatButton(
                                 onPressed: () {
                                   _formKey.currentState.reset();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegisterScreen()),
+                                        builder: (context) => RegisterScreen()),
                                   );
                                 },
                                 splashColor: Colors.blueAccent,
@@ -177,16 +185,21 @@ class _LoginScreenState extends State<LoginScreen>
   goToHomePage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => MyHomePage(title: "hola")),
+      MaterialPageRoute(
+          builder: (context) => MyHomePage(title: "Amplifier Configurations")),
     );
   }
 
   @override
   showLoginError() {
+    _isLoading = true;
     _scaffoldState.currentState.showSnackBar(SnackBar(
       content: Text("incorrect user or password"),
       backgroundColor: Colors.red,
       duration: Duration(seconds: 1),
     ));
+    Timer(Duration(seconds: 1), () {
+      _isLoading = false;
+    });
   }
 }
