@@ -5,8 +5,9 @@ import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:amplifier_configurations/model/User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
- CollectionReference musicianCollection =
+CollectionReference musicianCollection =
     Firestore.instance.collection('musician');
+CollectionReference usersCollection = Firestore.instance.collection('users');
 
 class FirebaseFirestoreService {
   static final FirebaseFirestoreService _instance =
@@ -33,25 +34,6 @@ class FirebaseFirestoreService {
       return null;
     });
   }
-
-//  // Insert user
-//  Future<User> createUser(
-//      String name, Configuration configuration, Amplifier amplifier) async {
-//     musicianCollection = Firestore.instance.collection('users');
-//      final TransactionHandler createTransaction = (Transaction tx) async {
-//      final DocumentSnapshot ds = await tx.get(musicianCollection.document());
-//      final Musician musician = new Musician(name, configuration, amplifier);
-//      //final Map<String, dynamic> data = musician.toJson();
-//      await tx.set(ds.reference, data);
-//      return data;
-//    };
-//    return Firestore.instance.runTransaction(createTransaction).then((mapData) {
-//      //return Musician.fromJson(mapData);
-//    }).catchError((error) {
-//      print('error: $error');
-//      return null;
-//    });
-//  }
 
   // Get musicians
   Stream<QuerySnapshot> getMusiciansList({int offset, int limit}) {

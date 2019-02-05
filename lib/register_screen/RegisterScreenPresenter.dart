@@ -1,3 +1,4 @@
+import 'package:amplifier_configurations/model/firebase/Auth.dart';
 import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreenView.dart';
 

@@ -26,4 +26,7 @@ class MusicianScreenPresenter {
   void dispose() {
     musicianSub?.cancel();
   }
+  void addToFavourites(Musician musiciacan){
+
+  }
 }

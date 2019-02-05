@@ -19,6 +19,7 @@ class MusicianScreen extends StatefulWidget {
 class _MusicianScreenState extends State<MusicianScreen>
     implements MusicianScreenView {
   List<Musician> musicians = [];
+  List<Musician> favouritesMusicians = [];
   FirebaseFirestoreService db = new FirebaseFirestoreService();
   MusicianScreenPresenter _presenter;
   bool isMarkedAsFav = false;
@@ -45,18 +46,6 @@ class _MusicianScreenState extends State<MusicianScreen>
     _presenter.dispose();
     super.dispose();
   }
-
-  void markAsFavourite(){
-    setState(() {
-      if(isMarkedAsFav){
-        isMarkedAsFav = false;
-      }
-      else{
-        isMarkedAsFav = true;
-      }
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +89,21 @@ class _MusicianScreenState extends State<MusicianScreen>
                                 icon: isMarkedAsFav ? Icon(Icons.favorite,
                                     color: Colors.redAccent) : Icon(Icons.favorite_border,
                                     color: Colors.redAccent),
-                                  onPressed: () {
-                                  markAsFavourite();
+                                  onPressed: () { if(!favouritesMusicians.contains(musicians[position])){
+                                  favouritesMusicians.add(musicians[position]);
+                                  setState(() {
+                                    isMarkedAsFav = true;
+
+                                  });
+                                  }
+                                  else{
+                                    favouritesMusicians.remove(musicians[position]);
+                                    setState(() {
+                                      isMarkedAsFav = false;
+
+                                    });
+                                  }
+                                  print(favouritesMusicians.length);
                                 },
                               )),
                           title: Text(
