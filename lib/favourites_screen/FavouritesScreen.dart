@@ -1,4 +1,8 @@
+import 'package:amplifier_configurations/favourites_screen/FavouritesScreenPresenter.dart';
+import 'package:amplifier_configurations/favourites_screen/FavouritesScreenView.dart';
 import 'package:amplifier_configurations/model/Musician.dart';
+import 'package:amplifier_configurations/model/User.dart';
+import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +14,29 @@ class FavouriteScreen extends StatefulWidget {
   _FavouriteScreenState createState() => _FavouriteScreenState();
 }
 
-class _FavouriteScreenState extends State<FavouriteScreen> {
+class _FavouriteScreenState extends State<FavouriteScreen> implements FavouritesScreenView{
   List<Musician> favouritesMusicians = [];
+  List<User> users = [];
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
+  FavouritesScreenPresenter _presenter;
 
+
+  _FavouriteScreenState() {
+    _presenter = FavouritesScreenPresenter(this);
+  }
+  @override
+  void initState() {
+    super.initState();
+    _presenter.getUser();
+  }
+  @override
+  showUsers(List<User> users) {
+    setState(() {
+      this.users = users;
+     // favouritesMusicians = users[0].favourites;
+      print(users.length);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +76,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       right: new BorderSide(
                                           width: 1.0, color: Colors.white))),
                               child: IconButton(
-                                icon: Icon(Icons.favorite,
+                                icon: Icon(Icons.delete,
                                     color: Colors.redAccent),
-                                onPressed: () {},
+                                onPressed: () {
+
+                                },
                               )),
                           title: Text(
                             '${favouritesMusicians[position].name}',
@@ -82,4 +108,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ),
         ));
   }
+
+
 }

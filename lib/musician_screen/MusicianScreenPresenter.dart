@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:amplifier_configurations/model/Musician.dart';
-import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
 import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:amplifier_configurations/musician_screen/MusicianScreenView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -19,7 +19,7 @@ class FirebaseFirestoreService {
 
   // Insert User
   Future<User> createUser(
-  List<Musician> favourites, String email, String uid) async {
+      List<Musician> favourites, String email, String uid) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(usersCollection.document(uid));
       final User user = new User(favourites, email);
@@ -27,9 +27,7 @@ class FirebaseFirestoreService {
       await tx.set(ds.reference, data);
       return data;
     };
-    return Firestore.instance
-        .runTransaction(createTransaction)
-        .then((mapData){
+    return Firestore.instance.runTransaction(createTransaction).then((mapData) {
       return User.fromJson(mapData);
     }).catchError((error) {
       print('error: $error');
@@ -53,6 +51,19 @@ class FirebaseFirestoreService {
       print('error: $error');
       return null;
     });
+  }
+
+// Get user
+  Stream<QuerySnapshot> getUser(String uid, {int limit, int offset}) {
+    Stream<QuerySnapshot> snapshots =
+        usersCollection.where('uid', isEqualTo: uid).snapshots();
+    if (offset != null) {
+      snapshots = snapshots.skip(offset);
+    }
+    if (limit != null) {
+      snapshots = snapshots.take(limit);
+    }
+    return snapshots;
   }
 
   // Get musicians
