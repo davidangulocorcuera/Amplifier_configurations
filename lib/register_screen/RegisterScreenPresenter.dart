@@ -1,13 +1,16 @@
 import 'package:amplifier_configurations/model/firebase/Auth.dart';
 import 'package:amplifier_configurations/model/firebase/BaseAuth.dart';
+import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:amplifier_configurations/register_screen/RegisterScreenView.dart';
 
 class RegisterScreenPresenter{
   final BaseAuth auth;
+  final FirebaseFirestoreService db;
   String _errorMessage = "";
   RegisterScreenView _view;
   RegisterScreenPresenter(this._view):
-        auth = Auth();
+        auth = Auth(),
+        db = FirebaseFirestoreService();
 
  bool validateEmail(email) {
    String p =
@@ -24,6 +27,8 @@ class RegisterScreenPresenter{
     try {
       _view.showCircularProgress();
       String userId = await auth.signUp(email, password);
+      print(userId);
+      createUser(email,userId);
       print('Signed up user: $userId');
       _view.goToHomePage();
     } catch (e) {
@@ -33,6 +38,8 @@ class RegisterScreenPresenter{
       _view.hideCircularProgress();
     }
   }
-
+   void createUser(String email,String uid){
+   db.createUser([], email,uid);
+ }
 
 }
