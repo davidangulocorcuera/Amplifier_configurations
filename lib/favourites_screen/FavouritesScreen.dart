@@ -21,7 +21,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
   List<User> users = [];
   FirebaseFirestoreService db = new FirebaseFirestoreService();
   FavouritesScreenPresenter _presenter;
-
+  String barTittle = "";
 
   _FavouriteScreenState() {
     _presenter = FavouritesScreenPresenter(this);
@@ -35,6 +35,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
   showUsers(List<User> users) {
     setState(() {
       this.users = users;
+      barTittle = users[0].email;
      // favouritesMusicians = users[0].favourites;
       print(users.length);
     });
@@ -46,7 +47,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           centerTitle: true,
-          title: Text("Favourites"),
+          title: Text(barTittle),
         ),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         body: SafeArea(

@@ -100,6 +100,24 @@ class FirebaseFirestoreService {
       return false;
     });
   }
+  // Update user
+  Future<dynamic> updateUser(User user) async {
+    final TransactionHandler updateTransaction = (Transaction tx) async {
+      final DocumentSnapshot ds =
+      await tx.get(musicianCollection.document(user.id));
+
+      await tx.update(ds.reference, user.toJson());
+      return {'updated': true};
+    };
+
+    return Firestore.instance
+        .runTransaction(updateTransaction)
+        .then((result) => result['updated'])
+        .catchError((error) {
+      print('error: $error');
+      return false;
+    });
+  }
 
   Future<dynamic> deleteMusician(String name) async {
     final TransactionHandler deleteTransaction = (Transaction tx) async {

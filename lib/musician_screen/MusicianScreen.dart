@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:amplifier_configurations/model/Musician.dart';
+import 'package:amplifier_configurations/model/User.dart';
 import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
 import 'package:amplifier_configurations/musician_detail_screen/MusicianDetailScreen.dart';
 import 'package:amplifier_configurations/musician_screen/MusicianScreenPresenter.dart';
@@ -12,8 +13,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 class MusicianScreen extends StatefulWidget {
   MusicianScreen({Key key, this.title}) : super(key: key);
   final String title;
-  String barTitle = "Musicians";
-
   @override
   _MusicianScreenState createState() => _MusicianScreenState();
 }
