@@ -79,38 +79,47 @@ class _MusicianDetailScreenState extends State<MusicianDetailScreen> {
                 color: Colors.black87,
                 colorBlendMode: BlendMode.darken,
               ),
-              ListView.builder(
-                itemBuilder: (context, position) {
-                  return Card(
-                    elevation: 8.0,
-                    margin: new EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 6.0),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(64, 75, 96, .9)),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          leading: Container(
-                              padding: EdgeInsets.only(right: 12.0),
-                              decoration:  BoxDecoration(
-                                  border:  Border(
-                                      right:  BorderSide(
-                                          width: 1.0, color: Colors.white))),
-                              child: Text("Configuration")),
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: ListView.builder(
+                  itemBuilder: (context, position) {
+                    return Card(
+                      elevation: 8.0,
+                      margin: new EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 6.0),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(64, 75, 96, .9)),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10.0),
+                            leading: Container(
+                                padding: EdgeInsets.only(right: 12.0),
+                                decoration:  BoxDecoration(
+                                    border:  Border(
+                                        right:  BorderSide(
+                                            width: 1.0, color: Colors.white))),
+                                child: IconButton(
+                                  icon: Icon(Icons.bubble_chart,
+                                      color: Colors.teal),
+                                  onPressed: () {
 
-                          title: Text(
-                            setList(position),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
-                  );
+                                  },
+                                )),
 
-                },
-                itemCount: 6,
+                            title: Text(
+                              setList(position),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                    );
 
+                  },
+                  itemCount: 6,
+
+                ),
               )
             ],
           ),

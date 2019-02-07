@@ -22,7 +22,7 @@ class FirebaseFirestoreService {
       List<Musician> favourites, String email, String uid) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(usersCollection.document(uid));
-      final User user = new User(favourites, email);
+      final User user = new User(favourites, email,uid);
       final Map<String, dynamic> data = user.toJson();
       await tx.set(ds.reference, data);
       return data;
@@ -56,8 +56,8 @@ class FirebaseFirestoreService {
 // Get user
   Stream<QuerySnapshot> getUser(String uid, {int limit, int offset}) {
     print(uid);
-    Stream<QuerySnapshot> snapshots =
-        usersCollection.where("uid", isEqualTo: uid).snapshots();
+    Stream<QuerySnapshot> snapshots = usersCollection.where("id", isEqualTo: uid).snapshots();
+
     if (offset != null) {
       snapshots = snapshots.skip(offset);
     }

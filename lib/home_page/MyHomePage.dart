@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
           data: Theme.of(context).copyWith(
               canvasColor: Color.fromRGBO(64, 75, 96, .9),
               // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-              primaryColor: Colors.orange,
+              primaryColor: Colors.teal,
               textTheme: Theme.of(context)
                   .textTheme
                   .copyWith(caption: new TextStyle(color: Colors.white))),

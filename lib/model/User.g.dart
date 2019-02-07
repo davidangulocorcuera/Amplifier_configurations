@@ -7,10 +7,13 @@ User _$UserFromJson(Map json) {
       (json['favourites'] as List)
           .map((e) => Musician.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['email'] as String);
+      json['email'] as String,
+      json['id'] as String);
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'favourites': instance.favourites,
-      'email': instance.email
-    };
+      'email': instance.email,
+      'id': instance.id
+
+};
