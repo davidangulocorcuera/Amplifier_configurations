@@ -19,7 +19,6 @@ class FavouritesScreenPresenter {
   getUser() async {
     musicianSub?.cancel();
     String uid = await auth.getCurrentUser();
-    print(uid);
     musicianSub = db.getUser(uid).listen((QuerySnapshot snapshot) {
       final users  = snapshot.documents
           .map((documentSnapshot) => User.fromJson(documentSnapshot.data))

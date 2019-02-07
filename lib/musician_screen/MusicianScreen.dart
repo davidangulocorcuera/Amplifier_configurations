@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:amplifier_configurations/model/Musician.dart';
 import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService.dart';
+import 'package:amplifier_configurations/musician_detail_screen/MusicianDetailScreen.dart';
 import 'package:amplifier_configurations/musician_screen/MusicianScreenPresenter.dart';
 import 'package:amplifier_configurations/musician_screen/MusicianScreenView.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+
 
 class MusicianScreen extends StatefulWidget {
   MusicianScreen({Key key, this.title}) : super(key: key);
@@ -77,6 +79,15 @@ class _MusicianScreenState extends State<MusicianScreen>
                       decoration:
                           BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                       child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MusicianDetailScreen(
+                                    musician: musicians[position]),
+                              ),
+                            );
+                          },
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 20.0, vertical: 10.0),
                           leading: Container(
@@ -86,21 +97,24 @@ class _MusicianScreenState extends State<MusicianScreen>
                                       right: new BorderSide(
                                           width: 1.0, color: Colors.white))),
                               child: IconButton(
-                                icon: isMarkedAsFav ? Icon(Icons.favorite,
-                                    color: Colors.redAccent) : Icon(Icons.favorite_border,
-                                    color: Colors.redAccent),
-                                  onPressed: () { if(!favouritesMusicians.contains(musicians[position])){
-                                  favouritesMusicians.add(musicians[position]);
-                                  setState(() {
-                                    isMarkedAsFav = true;
-
-                                  });
-                                  }
-                                  else{
-                                    favouritesMusicians.remove(musicians[position]);
+                                icon: isMarkedAsFav
+                                    ? Icon(Icons.star,
+                                        color: Colors.yellowAccent)
+                                    : Icon(Icons.star_border,
+                                        color: Colors.yellowAccent),
+                                onPressed: () {
+                                  if (!favouritesMusicians
+                                      .contains(musicians[position])) {
+                                    favouritesMusicians
+                                        .add(musicians[position]);
+                                    setState(() {
+                                      isMarkedAsFav = true;
+                                    });
+                                  } else {
+                                    favouritesMusicians
+                                        .remove(musicians[position]);
                                     setState(() {
                                       isMarkedAsFav = false;
-
                                     });
                                   }
                                   print(favouritesMusicians.length);

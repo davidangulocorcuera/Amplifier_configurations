@@ -55,14 +55,15 @@ class FirebaseFirestoreService {
 
 // Get user
   Stream<QuerySnapshot> getUser(String uid, {int limit, int offset}) {
+    print(uid);
     Stream<QuerySnapshot> snapshots =
-        usersCollection.where('uid', isEqualTo: uid).snapshots();
+        usersCollection.where("uid", isEqualTo: uid).snapshots();
     if (offset != null) {
       snapshots = snapshots.skip(offset);
     }
     if (limit != null) {
       snapshots = snapshots.take(limit);
-    }
+      }
     return snapshots;
   }
 
