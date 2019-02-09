@@ -103,9 +103,8 @@ class FirebaseFirestoreService {
   // Update user
   Future<dynamic> updateUser(User user) async {
     final TransactionHandler updateTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds =
-      await tx.get(musicianCollection.document(user.id));
-
+      final DocumentSnapshot ds = await tx.get(usersCollection.document(user.id));
+      print(user.toJson());
       await tx.update(ds.reference, user.toJson());
       return {'updated': true};
     };
