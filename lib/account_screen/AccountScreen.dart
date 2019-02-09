@@ -1,3 +1,4 @@
+import 'package:amplifier_configurations/login_screen/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -23,8 +24,11 @@ class _AccountScreenState extends State<AccountScreen> {
         actions: <Widget>[
           // action button
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.exit_to_app),
+            color: Colors.blueGrey,
             onPressed: () {
+              Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
               // logout
             },
           ),
