@@ -6,7 +6,6 @@ import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService
 import 'package:amplifier_configurations/musician_detail_screen/MusicianDetailScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FavouriteScreen extends StatefulWidget {
   FavouriteScreen({Key key, this.title}) : super(key: key);
@@ -77,14 +76,22 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: ListView.builder(
+                  itemCount: this.favouritesMusicians.length,
                   itemBuilder: (context, position) {
-                    return Card(
-                      elevation: 8.0,
-                      margin: new EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 6.0),
-                      child: Slidable(
-                        delegate: new SlidableDrawerDelegate(),
-                        actionExtentRatio: 0.25,
+                    return Dismissible(
+                      key: Key(this.favouritesMusicians[position].id),
+                      onDismissed: (direction) {
+                        Musician current = this.favouritesMusicians[position];
+                        setState(() {
+                          this.user.favourites.remove(current.id);
+                          this.favouritesMusicians.remove(current);
+                        });
+                        _presenter.updateUser(user);
+                      },
+                      child: Card(
+                        elevation: 8.0,
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
                         child: Container(
                           decoration:
                               BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
@@ -124,24 +131,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
                               trailing: Icon(Icons.keyboard_arrow_right,
                                   color: Colors.white, size: 30.0)),
                         ),
-                        secondaryActions: <Widget>[
-                          new IconSlideAction(
-                            caption: 'Delete',
-                            color: Colors.redAccent,
-                            icon: Icons.delete,
-                            onTap: (){
-                              setState(() {
-                                this.user.favourites.remove(this.favouritesMusicians[position].id);
-                                this.favouritesMusicians.remove(this.favouritesMusicians[position]);
-                              });
-                              _presenter.updateUser(this.user);
-                            },
-                          ),
-                        ],
                       ),
                     );
                   },
-                  itemCount: this.favouritesMusicians.length,
                 ),
               )
             ],
