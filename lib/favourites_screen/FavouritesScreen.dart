@@ -18,7 +18,7 @@ class FavouriteScreen extends StatefulWidget {
 
 class _FavouriteScreenState extends State<FavouriteScreen> implements FavouritesScreenView{
   List<Musician> favouritesMusicians = [];
-  List<User> users = [];
+  User user;
   FirebaseFirestoreService db = new FirebaseFirestoreService();
   FavouritesScreenPresenter _presenter;
   String barTittle = "Favourites";
@@ -32,12 +32,20 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
     _presenter.getUser();
   }
   @override
-  showUsers(List<User> users) {
+  showUser(User user) {
     setState(() {
-      this.users = users;
-    favouritesMusicians =  users[0].favourites;
-      print(users.length);
+      this.user = user;
     });
+  }
+
+  @override
+  fillFavourites(List<Musician> favourites) {
+    setState(() {
+      print(favourites.length);
+      this.favouritesMusicians = favourites;
+    });
+
+   // if (this.favouritesMusicians.length == this.user.favourites.length) setState(() {});
   }
   @override
   Widget build(BuildContext context) {
@@ -119,6 +127,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
           ),
         ));
   }
+
+
 
 
 }

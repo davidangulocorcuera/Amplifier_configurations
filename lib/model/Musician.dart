@@ -6,11 +6,12 @@ part 'Musician.g.dart';
 
 @JsonSerializable()
 class Musician {
+  String id;
   String name;
   Configuration configuration;
   Amplifier amplifier;
 
-  Musician(this.name, this.configuration, this.amplifier);
+  Musician(this.id, this.name, this.configuration, this.amplifier);
 
   factory Musician.fromJson(Map<dynamic, dynamic> json) =>
       _$MusicianFromJson(json);

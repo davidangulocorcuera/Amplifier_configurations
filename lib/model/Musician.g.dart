@@ -8,12 +8,14 @@ part of 'Musician.dart';
 
 Musician _$MusicianFromJson(Map json) {
   return Musician(
+      json['id'] as String,
       json['name'] as String,
       Configuration.fromJson(json['configuration'] as Map),
       Amplifier.fromJson(json['amplifier'] as Map));
 }
 
 Map<String, dynamic> _$MusicianToJson(Musician instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'configuration': instance.configuration,
       'amplifier': instance.amplifier

@@ -9,7 +9,7 @@ part 'User.g.dart';
 class User {
   User(this.favourites, this.email,this.id);
   String id;
-  List<Musician> favourites;
+  List<String> favourites;
   String email;
   factory User.fromJson(Map<dynamic, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);

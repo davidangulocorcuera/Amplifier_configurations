@@ -35,8 +35,7 @@ class MusicianScreenPresenter {
       final users  = snapshot.documents
           .map((documentSnapshot) => User.fromJson(documentSnapshot.data))
           .toList();
-      print(users.length);
-      _view.showUsers(users);
+      _view.showUser(users[0]);
     });
   }
 

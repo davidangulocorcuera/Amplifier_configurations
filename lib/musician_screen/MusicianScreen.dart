@@ -23,8 +23,6 @@ class _MusicianScreenState extends State<MusicianScreen>
   FirebaseFirestoreService db = new FirebaseFirestoreService();
   MusicianScreenPresenter _presenter;
   bool isMarkedAsFav = false;
-  List<User> users = [];
-
 
   _MusicianScreenState() {
     _presenter = MusicianScreenPresenter(this);
@@ -37,15 +35,16 @@ class _MusicianScreenState extends State<MusicianScreen>
     _presenter.getUser();
   }
   @override
-  showUsers(List<User> users) {
+  showUser(User user) {
     setState(() {
-      this.users = users;
-      user = users[0];
+      this.user = user;
     });
   }
   @override
   showMusicians(List<Musician> musicians) {
     setState(() {
+
+
       this.musicians = musicians;
     });
   }
@@ -113,25 +112,22 @@ class _MusicianScreenState extends State<MusicianScreen>
                                       : Icon(Icons.favorite_border,
                                           color: Colors.white),
                                   onPressed: () {
-                                    if (!favouritesMusicians
-                                        .contains(musicians[position])) {
-                                      favouritesMusicians
-                                          .add(musicians[position]);
-                                           user.favourites = favouritesMusicians;
+                                    if (!user.favourites
+                                        .contains(musicians[position].id)) {
+                                      user.favourites
+                                          .add(musicians[position].id);
                                       _presenter.updateUser(user);
                                       setState(() {
                                         isMarkedAsFav = true;
                                       });
                                     } else {
-                                      favouritesMusicians
+                                      user.favourites
                                           .remove(musicians[position]);
-                                      user.favourites = favouritesMusicians;
                                       _presenter.updateUser(user);
                                       setState(() {
                                         isMarkedAsFav = false;
                                       });
                                     }
-                                    print(user.favourites.length);
                                   },
                                 )),
                             title: Text(
