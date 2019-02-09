@@ -12,7 +12,7 @@ class Musician {
 
   Musician(this.name, this.configuration, this.amplifier);
 
-  factory Musician.fromJson(Map<String, dynamic> json) =>
+  factory Musician.fromJson(Map<dynamic, dynamic> json) =>
       _$MusicianFromJson(json);
 
   Map<String, dynamic> toJson() => _$MusicianToJson(this);
