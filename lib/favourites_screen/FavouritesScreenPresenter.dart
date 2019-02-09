@@ -43,4 +43,7 @@ class FavouritesScreenPresenter {
   void disposeFavourites() {
     favouritesSub?.cancel();
   }
+  updateUser(User user){
+    db.updateUser(user);
+  }
 }

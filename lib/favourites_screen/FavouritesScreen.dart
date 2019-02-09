@@ -6,7 +6,7 @@ import 'package:amplifier_configurations/model/firebase/FirebaseFirestoreService
 import 'package:amplifier_configurations/musician_detail_screen/MusicianDetailScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FavouriteScreen extends StatefulWidget {
   FavouriteScreen({Key key, this.title}) : super(key: key);
@@ -45,8 +45,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
     setState(() {
       this.favouritesMusicians = favourites;
     });
-
-   // if (this.favouritesMusicians.length == this.user.favourites.length) setState(() {});
   }
 
   @override
@@ -84,52 +82,66 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
                       elevation: 8.0,
                       margin: new EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 6.0),
-                      child: Container(
-                        decoration:
-                            BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-                        child: ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MusicianDetailScreen(
-                                      musician: favouritesMusicians[position]),
-                                ),
-                              );
+                      child: Slidable(
+                        delegate: new SlidableDrawerDelegate(),
+                        actionExtentRatio: 0.25,
+                        child: Container(
+                          decoration:
+                              BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                          child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MusicianDetailScreen(
+                                        musician: this.favouritesMusicians[position]),
+                                  ),
+                                );
+                              },
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              leading: Container(
+                                  padding: EdgeInsets.only(right: 12.0),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          right: BorderSide(
+                                              width: 1.0, color: Colors.white))),
+                                  child: Icon(Icons.accessibility,
+                                        color: Colors.white)
+                                  ),
+                              title: Text(
+                                this.favouritesMusicians[position].name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Row(
+                                children: <Widget>[
+                                  Text(this.favouritesMusicians[position].amplifier.name,
+                                      style: TextStyle(color: Colors.white))
+                                ],
+                              ),
+                              trailing: Icon(Icons.keyboard_arrow_right,
+                                  color: Colors.white, size: 30.0)),
+                        ),
+                        secondaryActions: <Widget>[
+                          new IconSlideAction(
+                            caption: 'Delete',
+                            color: Colors.redAccent,
+                            icon: Icons.delete,
+                            onTap: (){
+                              setState(() {
+                                this.user.favourites.remove(this.favouritesMusicians[position].id);
+                                this.favouritesMusicians.remove(this.favouritesMusicians[position]);
+                              });
+                              _presenter.updateUser(this.user);
                             },
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            leading: Container(
-                                padding: EdgeInsets.only(right: 12.0),
-                                decoration: new BoxDecoration(
-                                    border: new Border(
-                                        right: new BorderSide(
-                                            width: 1.0, color: Colors.white))),
-                                child: IconButton(
-                                  icon: Icon(Icons.delete,
-                                      color: Colors.redAccent),
-                                  onPressed: () {
-
-                                  },
-                                )),
-                            title: Text(
-                              favouritesMusicians[position].name,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Row(
-                              children: <Widget>[
-                                Text(favouritesMusicians[position].amplifier.name,
-                                    style: TextStyle(color: Colors.white))
-                              ],
-                            ),
-                            trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.white, size: 30.0)),
+                          ),
+                        ],
                       ),
                     );
                   },
-                  itemCount: favouritesMusicians.length,
+                  itemCount: this.favouritesMusicians.length,
                 ),
               )
             ],
