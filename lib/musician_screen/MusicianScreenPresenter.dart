@@ -27,6 +27,7 @@ class MusicianScreenPresenter {
           .toList();
       _view.showMusicians(musicians);
     });
+
   }
   getUser() async {
     userSub?.cancel();

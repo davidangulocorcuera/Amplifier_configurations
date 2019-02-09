@@ -7,6 +7,7 @@ part of 'Musician.dart';
 // **************************************************************************
 
 Musician _$MusicianFromJson(Map json) {
+  print(json);
   return Musician(
       json['id'] as String,
       json['name'] as String,

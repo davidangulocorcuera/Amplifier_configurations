@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: new Text('Musicians'),
               ),
               BottomNavigationBarItem(
-                icon: new Icon(Icons.star),
+                icon: new Icon(Icons.favorite),
                 title: new Text('Favourites'),
               ),
               BottomNavigationBarItem(

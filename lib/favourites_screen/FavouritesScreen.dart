@@ -36,17 +36,26 @@ class _FavouriteScreenState extends State<FavouriteScreen> implements Favourites
     setState(() {
       this.user = user;
     });
+
+    _presenter.getFavourites(user.favourites);
   }
 
   @override
   fillFavourites(List<Musician> favourites) {
     setState(() {
-      print(favourites.length);
       this.favouritesMusicians = favourites;
     });
 
    // if (this.favouritesMusicians.length == this.user.favourites.length) setState(() {});
   }
+
+  @override
+  void dispose() {
+    _presenter.disposeUser();
+    _presenter.disposeFavourites();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

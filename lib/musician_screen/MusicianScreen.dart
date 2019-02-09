@@ -31,7 +31,6 @@ class _MusicianScreenState extends State<MusicianScreen>
   @override
   void initState() {
     super.initState();
-    _presenter.getMusicians();
     _presenter.getUser();
   }
   @override
@@ -39,13 +38,15 @@ class _MusicianScreenState extends State<MusicianScreen>
     setState(() {
       this.user = user;
     });
+    _presenter.getMusicians();
   }
   @override
   showMusicians(List<Musician> musicians) {
     setState(() {
-
-
-      this.musicians = musicians;
+      for (var musician in musicians) {
+        musician.isFav = this.user.favourites.contains(musician.id);
+        this.musicians.add(musician);
+      }
     });
   }
 
@@ -106,7 +107,7 @@ class _MusicianScreenState extends State<MusicianScreen>
                                         right: new BorderSide(
                                             width: 1.0, color: Colors.white))),
                                 child: IconButton(
-                                  icon: isMarkedAsFav
+                                  icon: musicians[position].isFav
                                       ? Icon(Icons.favorite,
                                           color: Colors.redAccent)
                                       : Icon(Icons.favorite_border,
@@ -118,14 +119,14 @@ class _MusicianScreenState extends State<MusicianScreen>
                                           .add(musicians[position].id);
                                       _presenter.updateUser(user);
                                       setState(() {
-                                        isMarkedAsFav = true;
+                                        this.musicians[position].isFav = true;
                                       });
                                     } else {
                                       user.favourites
-                                          .remove(musicians[position]);
+                                          .remove(musicians[position].id);
                                       _presenter.updateUser(user);
                                       setState(() {
-                                        isMarkedAsFav = false;
+                                        this.musicians[position].isFav = false;
                                       });
                                     }
                                   },

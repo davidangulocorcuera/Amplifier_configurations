@@ -10,8 +10,9 @@ class Musician {
   String name;
   Configuration configuration;
   Amplifier amplifier;
+  bool isFav = false;
 
-  Musician(this.id, this.name, this.configuration, this.amplifier);
+  Musician(this.id, this.name, this.configuration, this.amplifier, {this.isFav});
 
   factory Musician.fromJson(Map<dynamic, dynamic> json) =>
       _$MusicianFromJson(json);
